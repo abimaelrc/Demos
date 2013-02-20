@@ -1,0 +1,121 @@
+<script type="text/javascript">
+var arrOpt = new Array();
+arrOpt[1] = new Array();
+arrOpt[1]["20_veinte"] = new Array();
+arrOpt[1]["20_veinte"]["21_veintiuno"] = new Array();
+arrOpt[1]["20_veinte"]["22_veintidos"] = new Array();
+arrOpt[1]["20_veinte"]["23_veintitres"] = new Array();
+arrOpt[1]["30_treinta"] = new Array();
+arrOpt[1]["30_treinta"]["31_treinta y uno"] = new Array();
+arrOpt[1]["30_treinta"]["32_treinta y dos"] = new Array();
+arrOpt[1]["30_treinta"]["33_treinta y tres"] = new Array();
+arrOpt[1]["40_cuarenta"] = new Array();
+arrOpt[1]["40_cuarenta"]["41_cuarenta y uno"] = new Array();
+arrOpt[1]["40_cuarenta"]["42_cuarenta y dos"] = new Array();
+arrOpt[1]["40_cuarenta"]["43_cuarenta y tres"] = new Array();
+ 
+arrOpt[100] = new Array();
+arrOpt[100]["110_ciento diez"] = new Array();
+arrOpt[100]["110_ciento diez"]["111_ciento once"] = new Array();
+arrOpt[100]["110_ciento diez"]["111_ciento doce"] = new Array();
+arrOpt[100]["110_ciento diez"]["111_ciento trece"] = new Array();
+arrOpt[100]["120_ciento veinte"] = new Array();
+arrOpt[100]["120_ciento veinte"]["121_ciento veintiuno"] = new Array();
+arrOpt[100]["120_ciento veinte"]["122_ciento veintidos"] = new Array();
+arrOpt[100]["120_ciento veinte"]["123_ciento veintitres"] = new Array();
+arrOpt[100]["130_ciento treinta"] = new Array();
+arrOpt[100]["130_ciento treinta"]["131_ciento treinta y uno"] = new Array();
+arrOpt[100]["130_ciento treinta"]["131_ciento treinta y dos"] = new Array();
+arrOpt[100]["130_ciento treinta"]["131_ciento treinta y tres"] = new Array();
+ 
+arrOpt[1000] = new Array();
+arrOpt[1000]["1100_mil cien"] = new Array();
+arrOpt[1000]["1100_mil cien"]["1110_mil ciento diez"] = new Array();
+arrOpt[1000]["1100_mil cien"]["1120_mil ciento veinte"] = new Array();
+arrOpt[1000]["1100_mil cien"]["1130_mil ciento treinta"] = new Array();
+arrOpt[1000]["1200_mil docientos"] = new Array();
+arrOpt[1000]["1200_mil docientos"]["1210_mil docientos diez"] = new Array();
+arrOpt[1000]["1200_mil docientos"]["1220_mil docientos veinte"] = new Array();
+arrOpt[1000]["1200_mil docientos"]["1230_mil docientos treinta"] = new Array();
+arrOpt[1000]["1300_mil trecientos"] = new Array();
+arrOpt[1000]["1300_mil trecientos"]["1310_mil trecientos diez"] = new Array();
+arrOpt[1000]["1300_mil trecientos"]["1320_mil trecientos veinte"] = new Array();
+arrOpt[1000]["1300_mil trecientos"]["1330_mil trecientos treinta"] = new Array();
+ 
+var fIndexSession = 0;
+var sIndexSession = 0;
+var tIndexSession = 0;
+ 
+function nullOptions(obj){
+    var n=obj.options.length
+    for (i=0;i<n;i++){
+        obj.options[i]=null
+    }
+    obj.options.length=0;
+}
+ 
+function getOpt(objs){
+    var f = objs[0];
+    var fIndex = f.selectedIndex;
+ 
+    var s = objs[1];
+    var sIndex = fIndexSession == fIndex ? s.selectedIndex : 0;
+    nullOptions(s);
+    sText = fIndex > 0
+        ? "Bar"
+        : "Foo";
+    s.options[0] = new Option("[Selecciona " + sText + "]", "", true);
+ 
+    var t = objs[2];
+    var tIndex = sIndexSession == sIndex ? t.selectedIndex : 0;
+    nullOptions(t);
+    tText = fIndex > 0
+        ? (sIndex > 0
+            ? "Candy"
+            : "Bar")
+        : "Foo";
+    t.options[0] = new Option("[Selecciona " + tText + "]", "", true);
+ 
+    fIndexSession = fIndex;
+    sIndexSession = sIndex;
+    tIndexSession = tIndex;
+ 
+    for(var i in arrOpt){
+        if(i == f.value){
+            var n = 1;
+            for(var ii in arrOpt[i]){
+                sKey = ii.split("_");
+                bool = sIndex == n ? true : false;
+                s.options[n++] = new Option(sKey[1], sKey[0], false, bool);
+                if(sKey[0] == s.value){
+                    var nn = 1;
+                    for(var iii in arrOpt[i][ii]){
+                        tKey = iii.split("_");
+                        bool = tIndex == nn ? true : false;
+                        t.options[nn++] = new Option(tKey[1], tKey[0], false, bool);
+                    }
+                }
+            }
+        }
+    }
+}
+</script>
+<form action="#">
+    Foo:
+    <select name="first" onchange="getOpt({0:this.form.first, 1:this.form.second, 2:this.form.third})">
+        <option value="">[Selecciona uno]</option>
+        <option value="1">uno</option>
+        <option value="100">cien</option>
+        <option value="1000">mil</option>
+    </select><br />
+ 
+    Bar:
+    <select name="second" onchange="getOpt({0:this.form.first, 1:this.form.second, 2:this.form.third})">
+        <option value="">[Selecciona Foo]</option>
+    </select><br />
+ 
+    Candy:
+    <select name="third">
+        <option value="">[Selecciona Foo]</option>
+    </select>
+</form>

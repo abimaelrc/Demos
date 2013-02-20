@@ -1,0 +1,119 @@
+<script type="text/javascript">
+var arrOpt = new Array();
+arrOpt[1] = new Array();
+arrOpt[1][20] = new Array();
+arrOpt[1][20][21] = new Array();
+arrOpt[1][20][22] = new Array();
+arrOpt[1][20][23] = new Array();
+arrOpt[1][30] = new Array();
+arrOpt[1][30][31] = new Array();
+arrOpt[1][30][32] = new Array();
+arrOpt[1][30][33] = new Array();
+arrOpt[1][40] = new Array();
+arrOpt[1][40][41] = new Array();
+arrOpt[1][40][42] = new Array();
+arrOpt[1][40][43] = new Array();
+ 
+arrOpt[100] = new Array();
+arrOpt[100][110] = new Array();
+arrOpt[100][110][111] = new Array();
+arrOpt[100][110][112] = new Array();
+arrOpt[100][110][113] = new Array();
+arrOpt[100][120] = new Array();
+arrOpt[100][120][121] = new Array();
+arrOpt[100][120][122] = new Array();
+arrOpt[100][120][123] = new Array();
+arrOpt[100][130] = new Array();
+arrOpt[100][130][131] = new Array();
+arrOpt[100][130][132] = new Array();
+arrOpt[100][130][133] = new Array();
+ 
+arrOpt[1000] = new Array();
+arrOpt[1000][1100] = new Array();
+arrOpt[1000][1100][1110] = new Array();
+arrOpt[1000][1100][1120] = new Array();
+arrOpt[1000][1100][1130] = new Array();
+arrOpt[1000][1200] = new Array();
+arrOpt[1000][1200][1210] = new Array();
+arrOpt[1000][1200][1220] = new Array();
+arrOpt[1000][1200][1230] = new Array();
+arrOpt[1000][1300] = new Array();
+arrOpt[1000][1300][1310] = new Array();
+arrOpt[1000][1300][1320] = new Array();
+arrOpt[1000][1300][1330] = new Array();
+ 
+var fIndexSession = 0;
+var sIndexSession = 0;
+var tIndexSession = 0;
+ 
+function nullOptions(obj){
+    var n=obj.options.length
+    for (i=0;i<n;i++){
+        obj.options[i]=null
+    }
+    obj.options.length=0;
+}
+ 
+function getOpt(objs){
+    var f = objs[0];
+    var fIndex = f.selectedIndex;
+ 
+    var s = objs[1];
+    var sIndex = fIndexSession == fIndex ? s.selectedIndex : 0;
+    nullOptions(s);
+    sText = fIndex > 0
+        ? "Bar"
+        : "Foo";
+    s.options[0] = new Option("[Selecciona " + sText + "]", "", true);
+ 
+    var t = objs[2];
+    var tIndex = sIndexSession == sIndex ? t.selectedIndex : 0;
+    nullOptions(t);
+    tText = fIndex > 0
+        ? (sIndex > 0
+            ? "Candy"
+            : "Bar")
+        : "Foo";
+    t.options[0] = new Option("[Selecciona " + tText + "]", "", true);
+ 
+    fIndexSession = fIndex;
+    sIndexSession = sIndex;
+    tIndexSession = tIndex;
+ 
+    for(var i in arrOpt){
+        if(i == f.value){
+            var n = 1;
+            for(var ii in arrOpt[i]){
+                bool = sIndex == n ? true : false;
+                s.options[n++] = new Option(ii, ii, false, bool);
+                if(ii == s.value){
+                    var nn = 1;
+                    for(var iii in arrOpt[i][ii]){
+                        bool = tIndex == nn ? true : false;
+                        t.options[nn++] = new Option(iii, iii, false, bool);
+                    }
+                }
+            }
+        }
+    }
+}
+</script>
+<form action="#">
+    Foo:
+    <select name="first" onchange="getOpt({0:this.form.first, 1:this.form.second, 2:this.form.third})">
+        <option value="">[Selecciona uno]</option>
+        <option value="1">1</option>
+        <option value="100">100</option>
+        <option value="1000">1000</option>
+    </select><br />
+ 
+    Bar:
+    <select name="second" onchange="getOpt({0:this.form.first, 1:this.form.second, 2:this.form.third})">
+        <option value="">[Selecciona Foo]</option>
+    </select><br />
+ 
+    Candy:
+    <select name="third">
+        <option value="">[Selecciona Foo]</option>
+    </select>
+</form>
